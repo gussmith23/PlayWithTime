@@ -4,21 +4,27 @@ var ctx=c.getContext("2d");
 var h = $("#canvas").height();
 var w = $("#canvas").width();
 
-var gravity = -100;
+var gravity = -120;
+var friction_coefficient = 0.95;
+
+var jump_velocity = 80;
+var move_velocity = 20;
 
 var players = {};
+var bullets = new Array();
 
 // This is just for messing around with movement. These variables should go within the Player object, most likely.
 var keyPressed = false;
 var keyPressEvent = null;
+var keyPressArray = new Array();
 
 function test() {
 	alert("hi");
 }
 
 function init() {
-	alert(w);
-	alert(h);
+	//alert(w);
+	//alert(h);
 	
 	ctx.canvas.width = w;
 	ctx.canvas.height = h;
@@ -29,9 +35,21 @@ function init() {
 	
 	// Input checks.
 	$(document).keydown(function (event) { 
+		keyPressArray[event.which] = 1;
+	} );
+	
+	$(document).keyup(function (event) { 
+		keyPressArray[event.which] = 0;
+	} );
+	
+	$(document).keypress(function (event) {
 		keyPressed = true;
 		keyPressEvent = event;
-	} );
+	});
+	
+	$(document).click(function (event) {
+		//bullets.push( new Bullet(new Position (100,100), player, new Velocity(0,0))); this isn't working!!!
+	});
 	
 	// Loop.
 	setInterval(loop, tick);
@@ -72,7 +90,12 @@ function loop() {
 		
 	}
 	
+	
+	friction(player);
+	
+	
 	// Handle any key presses.
+	/*
 	if (keyPressed) {
 		
 		//alert(keyPressEvent.which);
@@ -94,7 +117,26 @@ function loop() {
 		// When sufficiently handled, reset these variables.
 		keyPressed = false;
 		keyPressEvent = null;
+	}*/
+	
+	// Key presses, new version. ---------------------------------------------------------
+	
+	
+	if(keyPressArray[32]|| keyPressArray[119]){
+			// Test
+			player.vy = jump_velocity;
 	}
+	
+	if(keyPressArray[65]){
+		player.vx = -1*move_velocity;
+	}
+	
+	if(keyPressArray[68]){
+		player.vx = move_velocity;
+	}
+	//------------------------------------------------------------------------------------
+	
+	
 	
 	//alert(player.position);alert(player.vx);
 	player.position.x += player.vx*(tick/1000);
@@ -110,4 +152,18 @@ function loop() {
 	
 	//players.forEach( function(player) { player.draw(); } );
 	player.draw(ctx);
+	
+	/*bullets.forEach( function(bullet) {
+		bullet.draw(ctx);
+	});*/
+}
+
+function friction(player) {
+	
+	//alert(player.position.x);
+	
+	if(player.position.y == 0) {
+		player.vx *= friction_coefficient;
+		
+	}
 }

@@ -14,6 +14,8 @@ function Player(position,name,color) {
 
 	this.vx = 0;
 	this.vy = 0;
+	
+	this.bullet_color = new Color(0,0,0);
 }
 
 Player.prototype.draw = function(ctx) { // This function currently states that position is determined by the bottom left corner.
