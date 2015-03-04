@@ -16,6 +16,9 @@ function Player(position,name,color) {
 	this.vy = 0;
 	
 	this.bullet_color = new Color(0,0,0);
+	
+	this.velocity = new Velocity(0,0);
+	this.acceleration = new Acceleration(0,0);
 }
 
 Player.prototype.draw = function(ctx) { // This function currently states that position is determined by the bottom left corner.

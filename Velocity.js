@@ -1,4 +1,4 @@
 function Velocity (vx,vy) {
-	this.vx = vx;
-	this.vy = vy;
+	this.x = vx;
+	this.y = vy;
 }

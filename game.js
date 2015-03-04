@@ -9,6 +9,7 @@ var friction_coefficient = 0.95;
 
 var jump_velocity = 80;
 var move_velocity = 20;
+var move_acceleration = 10;
 
 var players = {};
 var bullets = new Array();
@@ -121,26 +122,36 @@ function loop() {
 	
 	// Key presses, new version. ---------------------------------------------------------
 	
-	
+	// Jump
 	if(keyPressArray[32]|| keyPressArray[119]){
-			// Test
-			player.vy = jump_velocity;
+		player.vy = jump_velocity;
 	}
 	
+	// Move left
 	if(keyPressArray[65]){
 		player.vx = -1*move_velocity;
+		player.acceleration.x = -1*move_acceleration;
 	}
 	
+	// Move right
 	if(keyPressArray[68]){
 		player.vx = move_velocity;
+		player.acceleration.x = move_acceleration;
 	}
 	//------------------------------------------------------------------------------------
 	
 	
+	// Velocity changes due to accel
+	player.velocity.x += player.acceleration.x*(tick/1000);
+	player.velocity.y += player.acceleration.y*(tick/1000);
+	
+	// Position changes due to velocity
+	player.position.x += player.velocity.x*(tick/1000);
+	player.position.y += player.velocity.y*(tick/1000);
 	
 	//alert(player.position);alert(player.vx);
-	player.position.x += player.vx*(tick/1000);
-	player.position.y += player.vy*(tick/1000);
+	//player.position.x += player.vx*(tick/1000);
+	//player.position.y += player.vy*(tick/1000);
 	
 	player.vy = player.vy + gravity*(tick/1000);
 	
@@ -156,6 +167,14 @@ function loop() {
 	/*bullets.forEach( function(bullet) {
 		bullet.draw(ctx);
 	});*/
+	
+	// Display debug info
+	ctx.font = "20px Arial";
+	ctx.fillText("vx " + player.velocity.x,1,20); 
+	ctx.fillText("vy " + player.velocity.y,1,40);
+	ctx.fillText("ax " + player.acceleration.x,1,60); 
+	ctx.fillText("ay " + player.acceleration.y,1,80);
+	
 }
 
 function friction(player) {
@@ -164,6 +183,9 @@ function friction(player) {
 	
 	if(player.position.y == 0) {
 		player.vx *= friction_coefficient;
+		//test
+		player.acceleration.x *= friction_coefficient;
+		
 		
 	}
 }
