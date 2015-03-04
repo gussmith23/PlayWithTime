@@ -1,15 +1,18 @@
 var tick = 40;
+var physics_tick = 30;
+
 var c=document.getElementById("canvas");
 var ctx=c.getContext("2d");
 var h = $("#canvas").height();
 var w = $("#canvas").width();
 
-var gravity = -120;
 var friction_coefficient = 0.95;
+var friction_acceleration = -20;
 
 var jump_velocity = 80;
 var move_velocity = 20;
-var move_acceleration = 10;
+var move_acceleration = 50;
+var jump_acceleration = 100;
 
 var players = {};
 var bullets = new Array();
@@ -29,6 +32,8 @@ function init() {
 	
 	ctx.canvas.width = w;
 	ctx.canvas.height = h;
+	
+	physics_init();
 	
 	
 	// Make a player.
@@ -54,6 +59,7 @@ function init() {
 	
 	// Loop.
 	setInterval(loop, tick);
+	setInterval(physics_loop, physics_tick);
 }
 
 function loop() {
@@ -62,6 +68,7 @@ function loop() {
 	
 	//-Physics portion-----------------------------------------------------------------
 	
+	/*
 	// Checking collision.
 	if (player.position.x < 0 || player.position > w-player.playerWidth) {
 		
@@ -89,10 +96,10 @@ function loop() {
 			player.position.y = h-player.playerHeight;
 		}
 		
-	}
+	}*/
 	
 	
-	friction(player);
+	//friction(player);
 	
 	
 	// Handle any key presses.
@@ -121,10 +128,11 @@ function loop() {
 	}*/
 	
 	// Key presses, new version. ---------------------------------------------------------
-	
+	/*
 	// Jump
 	if(keyPressArray[32]|| keyPressArray[119]){
 		player.vy = jump_velocity;
+		player.velocity.y = jump_velocity;
 	}
 	
 	// Move left
@@ -137,10 +145,10 @@ function loop() {
 	if(keyPressArray[68]){
 		player.vx = move_velocity;
 		player.acceleration.x = move_acceleration;
-	}
+	}*/
 	//------------------------------------------------------------------------------------
 	
-	
+	/*
 	// Velocity changes due to accel
 	player.velocity.x += player.acceleration.x*(tick/1000);
 	player.velocity.y += player.acceleration.y*(tick/1000);
@@ -152,8 +160,7 @@ function loop() {
 	//alert(player.position);alert(player.vx);
 	//player.position.x += player.vx*(tick/1000);
 	//player.position.y += player.vy*(tick/1000);
-	
-	player.vy = player.vy + gravity*(tick/1000);
+	*/
 	
 	ctx.clearRect(0,0,w,h);
 	
@@ -182,10 +189,17 @@ function friction(player) {
 	//alert(player.position.x);
 	
 	if(player.position.y == 0) {
-		player.vx *= friction_coefficient;
+		/*player.vx *= friction_coefficient;
 		//test
-		player.acceleration.x *= friction_coefficient;
+		player.acceleration.x *= friction_coefficient;*/
 		
+		if(player.velocity.x != 0) {
+			player.acceleration.x = Math.abs(player.velocity.x)/player.velocity.x*friction_acceleration;
+		}
 		
+		if(Math.abs(player.velocity.x)<.1){
+			player.velocity.x = 0;
+			player.acceleration.x = 0;
+		}
 	}
 }

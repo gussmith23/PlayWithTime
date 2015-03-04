@@ -19,6 +19,11 @@ function Player(position,name,color) {
 	
 	this.velocity = new Velocity(0,0);
 	this.acceleration = new Acceleration(0,0);
+	
+	this.mass = 10;
+	
+	this.force = new Force(0,0);
+	this.force_old = new Force(0,0);
 }
 
 Player.prototype.draw = function(ctx) { // This function currently states that position is determined by the bottom left corner.
