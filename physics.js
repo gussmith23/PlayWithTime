@@ -1,10 +1,20 @@
 var forces = new Array();
 
-var force_gravity = -120;
+var force_gravity = -1000;
+
+
+var move_acceleration = 50;
+var jump_acceleration = 100;
+var force_move_lateral = 100;
+var force_jump = 1000;
 
 function physics_init() {
 	forces.push(gravity);
 	forces.push(jump);
+	forces.push(move_lateral);
+	
+	
+	// For now, normal force calculated last
 	forces.push(normal);
 }
 
@@ -57,20 +67,43 @@ function jump(player1) {
 	
 	//THIS ISN'T WORKING FOR SOME REASON RIGHT NOW
 	
+	//console.log(keyPressArray);
+	
 	// Jump
 	if(keyPressArray[32]|| keyPressArray[119]){
-		player1.force1.y += 1000;
-		alert(1);
+		player1.force.y += 1000;
 	}
 	
 	if(keyPressed&& (keyPressEvent.which == 32|| keyPressEvent.which == 119) ) {
-		player1.force1.y += 1000;
-		alert(1);
+		player1.force.y += 1000;
+	}
+}
+
+function move_lateral(player1) {
+	// Move left
+	if(keyPressArray[65]){
+		player1.force.x += -1*force_move_lateral;
+	}
+	
+	// Move right
+	if(keyPressArray[68]){
+		player1.force.x += force_move_lateral;
 	}
 }
 
 function normal(player1) {
-	if (player1.position.y <= 0) {
-		player1.force.y += player1.force_old.y * -1;
+	/*if (player1.position.y <= 0 && player1.force_old.y < 0) {
+		player1.force.y += player1.force_old.y * player1.position.y*1000;
+	}*/
+	
+	// Another way of doing this...this requires that the normal force be calculated last, which i'd like to avoid.
+	/*if (player1.position.y <= 0 && player1.force.y < 0) {
+		player1.force.y = player1.position.y*-1*1000000;
+	}*/
+	
+	if (player1.position.y <= 0 && player1.force.y < 0) {
+		player1.force.y = 0;
+		player1.position.y = 0;
 	}
+	
 }

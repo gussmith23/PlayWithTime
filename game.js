@@ -11,8 +11,6 @@ var friction_acceleration = -20;
 
 var jump_velocity = 80;
 var move_velocity = 20;
-var move_acceleration = 50;
-var jump_acceleration = 100;
 
 var players = {};
 var bullets = new Array();
@@ -37,7 +35,7 @@ function init() {
 	
 	
 	// Make a player.
-	player = new Player(new Position(10,0),"Gus",new Color(255,0,0));
+	player = new Player(new Position(10,0),"Gus",new Color(75,0,130));
 	
 	// Input checks.
 	$(document).keydown(function (event) { 
