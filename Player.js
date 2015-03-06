@@ -20,7 +20,7 @@ function Player(position,name,color) {
 	this.velocity = new Velocity(0,0);
 	this.acceleration = new Acceleration(0,0);
 	
-	this.mass = 10;
+	this.mass = 500;
 	
 	this.force = new Force(0,0);
 	this.force_old = new Force(0,0);

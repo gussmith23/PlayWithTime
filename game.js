@@ -1,5 +1,10 @@
-var tick = 40;
-var physics_tick = 30;
+/*
+ * Much of this borrows and is informed by the article "Real Time Multiplayer in HTML5"
+ * by Sven Bergstrom (http://buildnewgames.com/real-time-multiplayer/). An incredible 
+ * article for anyone interested in the subject.
+ */
+var tick = 45;
+var physics_tick = 15;
 
 var c=document.getElementById("canvas");
 var ctx=c.getContext("2d");
@@ -179,6 +184,9 @@ function loop() {
 	ctx.fillText("vy " + player.velocity.y,1,40);
 	ctx.fillText("ax " + player.acceleration.x,1,60); 
 	ctx.fillText("ay " + player.acceleration.y,1,80);
+	ctx.fillText("fx " + player.force.x,1,100); 
+	ctx.fillText("fy " + player.force.y,1,120);
+	
 	
 }
 
