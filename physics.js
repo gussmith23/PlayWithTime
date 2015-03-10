@@ -27,12 +27,24 @@ function physics_loop() {
 	
 	calculate_acceleration(player);
 	
-	calculate_velocity(player);
+	calculate_velocity(player,physics_tick);
 	
-	calculate_position(player);
+	calculate_position(player, physics_tick);
 	
 	test_collision(player);
 	
+}
+
+function physics_time_step(player1, step) {
+	calculate_net_force(player1);
+	
+	calculate_acceleration(player1);
+	
+	calculate_velocity(player1, step);
+	
+	calculate_position(player1,step);
+	
+	test_collision(player1);
 }
 
 function calculate_net_force(player1) {
@@ -51,14 +63,14 @@ function calculate_acceleration(player1) {
 	player.acceleration.y = player.force.y/player.mass;
 }
 
-function calculate_velocity(player1) {
-	player.velocity.x += player.acceleration.x*(physics_tick/1000);
-	player.velocity.y += player.acceleration.y*(physics_tick/1000);
+function calculate_velocity(player1,step) {
+	player.velocity.x += player.acceleration.x*(step/1000);
+	player.velocity.y += player.acceleration.y*(step/1000);
 }
 
-function calculate_position(player1) {
-	player.position.x += player.velocity.x*(physics_tick/1000);
-	player.position.y += player.velocity.y*(physics_tick/1000);
+function calculate_position(player1,step) {
+	player.position.x += player.velocity.x*(step/1000);
+	player.position.y += player.velocity.y*(step/1000);
 }
 
 
