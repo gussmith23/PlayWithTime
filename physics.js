@@ -29,6 +29,10 @@ function physics_loop() {
 	
 	physics_time_step(player, 100);
 	
+	bullets.forEach( function(bullet) {
+		physics_time_step(bullet, 100);
+	});
+	
 }
 
 function physics_time_step(player1, step) {
@@ -58,18 +62,25 @@ function calculate_net_force(player1) {
 }
 
 function calculate_acceleration(player1) {
-	player.acceleration.x = player.force.x/player.mass;
-	player.acceleration.y = player.force.y/player.mass;
+	player1.acceleration.x = player1.force.x/player.mass;
+	player1.acceleration.y = player1.force.y/player.mass;
 }
 
 function calculate_velocity(player1,step) {
-	player.velocity.x += player.acceleration.x*(step/1000);
-	player.velocity.y += player.acceleration.y*(step/1000);
+	player1.velocity.x += player1.acceleration.x*(step/1000);
+	player1.velocity.y += player1.acceleration.y*(step/1000);
 }
 
 function calculate_position(player1,step) {
-	player.position.x += player.velocity.x*(step/1000);
-	player.position.y += player.velocity.y*(step/1000);
+	
+	console.log(player1);
+	console.log(player1.position);
+	console.log(player1.velocity);
+	console.log(player1.acceleration);
+	console.log(player1.force);
+	
+	player1.position.x += player1.velocity.x*(step/1000);
+	player1.position.y += player1.velocity.y*(step/1000);
 }
 
 

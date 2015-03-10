@@ -57,7 +57,7 @@ function init() {
 	});
 	
 	$(document).click(function (event) {
-		//bullets.push( new Bullet(new Position (100,100), player, new Velocity(0,0))); this isn't working!!!
+		bullets.push( new Bullet(new Position (100,100), player, new Velocity(0,0))); //this isn't working!!!
 	});
 	
 	// Loop.
@@ -174,9 +174,9 @@ function loop() {
 	//players.forEach( function(player) { player.draw(); } );
 	player.draw(ctx);
 	
-	/*bullets.forEach( function(bullet) {
+	bullets.forEach( function(bullet) {
 		bullet.draw(ctx);
-	});*/
+	});
 	
 	// Display debug info
 	ctx.font = "20px Arial";

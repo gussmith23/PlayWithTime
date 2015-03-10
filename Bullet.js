@@ -1,9 +1,13 @@
 function Bullet(position,player,velocity){
-	this.position = position;
+	this.position = new Position(100,100);
 	this.owner = player;
-	this.velocity = velocity;
+	this.velocity = new Velocity (10,10);
+	this.acceleration = new Acceleration(0,0);
+	this.force = new Force(0,0);
 	
-	if(typeof owner.bullet_color == 'Color') this.color = owner.bullet_color;
+	this.mass = 10;
+	
+	if(typeof this.owner.bullet_color == 'Color') this.color = this.owner.bullet_color;
 	else this.color = new Color(0,0,0);
 }
 
