@@ -5,11 +5,15 @@ var force_gravity = -1000;
 
 var move_acceleration = 50;
 var jump_acceleration = 100;
-var force_move_lateral = 100;
+var force_move_lateral = 1000;
 var force_jump = 6000;
 var force_normal_coefficient = 1;
+var acceleration_gravity = -10;
 
 var test_world_mass = Number.MAX_VALUE;
+
+// The current step desired by the time loop. Will be read by some of the forces (we could also pass it in as an arg)
+var current_step;
 
 function physics_init() {
 	forces.push(gravity);
@@ -23,19 +27,14 @@ function physics_init() {
 
 function physics_loop() {
 	
-	calculate_net_force(player);
-	
-	calculate_acceleration(player);
-	
-	calculate_velocity(player,physics_tick);
-	
-	calculate_position(player, physics_tick);
-	
-	test_collision(player);
+	physics_time_step(player, 100);
 	
 }
 
 function physics_time_step(player1, step) {
+	
+	current_step = step;
+	
 	calculate_net_force(player1);
 	
 	calculate_acceleration(player1);
@@ -79,7 +78,7 @@ function calculate_position(player1,step) {
 function gravity(player1) {
 	ctx.fillText("before gravity " + player1.force.y,400,20); 
 	
-	player1.force.y += force_gravity;
+	player1.force.y += player1.mass*acceleration_gravity;
 	
 	ctx.fillText("after gravity " + player1.force.y,400,40); 
 }
@@ -123,9 +122,9 @@ function normal(player1) {
 	}*/
 	
 	// Another way of doing this...this requires that the normal force be calculated last, which i'd like to avoid.
-	if (player1.position.y <= 0 && player1.force.y < 0) {
-		player1.force.y = Math.pow(player1.position.y,6)*100;
-	}
+	/*if (player1.position.y <= 0 && player1.force.y < 0) {
+		player1.force.y = Math.pow(player1.position.y,1);
+	}*/
 	
 	/*if (player1.position.y <= 0 && player1.force.y < 0) {
 		player1.force.y = 0;
@@ -137,6 +136,10 @@ function normal(player1) {
 		player1.force.y = 0;
 		player1.force.y += (0-player1.position.y)*force_normal_coefficient;
 	}*/
+	
+	if (player1.position.y <= 0 && player1.force.y < 0) {
+		player1.force.y *= 2*player1.position.y;
+	}
 	
 	ctx.fillText("after normal " + player1.force.y,400,80); 
 
