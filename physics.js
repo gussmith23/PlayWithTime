@@ -77,7 +77,7 @@ function calculate_position(player1,step) {
 	console.log(player1.position);
 	console.log(player1.velocity);
 	console.log(player1.acceleration);
-	console.log(player1.force);
+	console.log(player1.force);	
 	
 	player1.position.x += player1.velocity.x*(step/1000);
 	player1.position.y += player1.velocity.y*(step/1000);
